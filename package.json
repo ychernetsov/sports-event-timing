@@ -1,0 +1,33 @@
+{
+  "name": "sports-event-timing",
+  "version": "1.0.0",
+  "description": "a client server application for manage sports events",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joistick1/sports-event-timing.git"
+  },
+  "keywords": [
+    "node",
+    "angular",
+    "mongodb"
+  ],
+  "author": "Eugene Chernetsov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joistick1/sports-event-timing/issues"
+  },
+  "homepage": "https://github.com/joistick1/sports-event-timing#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
