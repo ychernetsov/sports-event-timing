@@ -2,9 +2,18 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const connection = require('./db');
+//const mongoose = require("mongoose");
+const log = require('./log');
 
 const sportsmenRoutes = require("./api/routes/sportsmen");
 const resultsRoutes = require("./api/routes/results");
+
+//connect to DB
+connection
+  .once('open', () => {
+    console.log(`Mongo connection is opened, starting server..`)
+  });
 
 //Logging server actions
 app.use(morgan("dev"));
