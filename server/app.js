@@ -6,6 +6,8 @@ const connection = require('./db');
 //const mongoose = require("mongoose");
 const log = require('./log');
 
+//Routes
+const homePageRoute = require("./api/routes/hp");
 const sportsmenRoutes = require("./api/routes/sportsmen");
 const resultsRoutes = require("./api/routes/results");
 
@@ -13,7 +15,17 @@ const resultsRoutes = require("./api/routes/results");
 connection
   .once('open', () => {
     console.log(`Mongo connection is opened, starting server..`)
-  });
+    connection.db.listCollections()
+    .next((err, collinfo) => {
+        if (collinfo) {
+            connection.db.dropCollection('results', (err, result) =>
+                console.log('Old result collection has been droped')
+            );
+        }
+    });
+
+  })
+  
 
 //Logging server actions
 app.use(morgan("dev"));
@@ -34,6 +46,7 @@ app.use((req, res, next) => {
 });
 
 //Routes which should handle requests
+app.use("/", homePageRoute);
 app.use("/sportsmen", sportsmenRoutes);
 app.use("/results", resultsRoutes);
 

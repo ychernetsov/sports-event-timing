@@ -2,13 +2,18 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Sportsmen = require("../../db/models/sportsman");
+const dbService = require("../../db-service");
 
 router.get("/", (req, res, next) => {
-    console.log("GETS")
-    Sportsmen.find().exec()
+    Sportsmen.find()
+        .select('-__v -_id')
+        .exec()
         .then(docs => {
-            console.log(docs)
-            res.status(200).json(docs)
+            const response = {
+                count: docs.length,
+                sportsmen: docs
+            }
+            res.status(200).json(response)
         })
         .catch(err => {
             console.log(err);
@@ -19,28 +24,16 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", (req, res, next) => {
-    const sportsmen = new Sportsmen({
-        _id: mongoose.Types.ObjectId(),
-        chip_id: req.body.chip_id,
-        start_number: req.body.start_number,
-        name: req.body.name,
-        lastname: req.body.lastname,
-        status: {
-            finishing: req.body.status.finishing,
-            finished: req.body.status.finished,
-            finished_time: req.body.status.finished_time
-        }
-    });
-
-    sportsmen.save().then(
-        result => console.log(result)
-    )
-    .catch(err => console.log(err));
-    res.status(201).json({
-        message: "Handle post request to /sportsmen",
-        createdSportsmen: sportsmen
-    });
+    const sportsmen = req.body.map(person => {
+        return new Sportsmen({
+            chip_id: mongoose.Types.ObjectId(),
+            start_number: person.start_number,
+            name: person.name,
+            lastname: person.lastname
+        });
+    });  
     
+    dbService.addDocs(Sportsmen, sportsmen);
 });
 
 module.exports = router;
