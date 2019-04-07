@@ -10,6 +10,7 @@ const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS } = process.env;
 
 const mongoUri = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 mongoose.connect(mongoUri, options)
+
 mongoose.connection
   .on('error', () => db.error)
   .on('close', () => db.log('connection closed'))

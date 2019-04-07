@@ -15,16 +15,7 @@ const resultsRoutes = require("./api/routes/results");
 connection
   .once('open', () => {
     console.log(`Mongo connection is opened, starting server..`)
-    connection.db.listCollections()
-    .next((err, collinfo) => {
-        if (collinfo) {
-            connection.db.dropCollection('results', (err, result) =>
-                console.log('Old result collection has been droped')
-            );
-        }
-    });
-
-  })
+  });
   
 
 //Logging server actions
