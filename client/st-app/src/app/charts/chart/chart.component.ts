@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Sportsmen } from '../model/sportmen.model';
+import { Store, select } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
 
 export interface PeriodicElement {
   name: string;
@@ -19,14 +23,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 export class ChartComponent implements OnInit {
 
-  columnsToDisplay: string[] = ['sportsmanName', 'sportsmanLastname', 'finishing', 'crossed'];
-  dataSource;
+  columnsToDisplay: string[] = ['sportsmanName', 'sportsmanLastname', 'finishing'];
+  @Input() charts;
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.dataSource = ELEMENT_DATA;
-    console.log(this.dataSource)
+ 
   }
 
 }

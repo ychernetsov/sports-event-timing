@@ -7,6 +7,9 @@ import { HomeComponent } from './home/home.component';
 import { Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import * as fromCharts from './charts.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { ChartsEffects } from './charts.effects';
+import { ChartsService } from './services/charts.service';
 
 export const coursesRoutes: Routes = [
   {
@@ -23,13 +26,17 @@ export const coursesRoutes: Routes = [
     CommonModule,
     MatTabsModule,
     MatTableModule,
-    StoreModule.forFeature('charts', fromCharts.ChartsReducer)
+    StoreModule.forFeature('charts', fromCharts.ChartsReducer),
+    EffectsModule.forFeature([ChartsEffects])
   ],
   exports: [
     MatTabsModule,
     MatTableModule,
     ChartComponent,
     HomeComponent
+  ],
+  providers: [
+    ChartsService
   ]
 })
 export class ChartsModule { }
