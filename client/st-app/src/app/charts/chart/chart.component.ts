@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import * as io from 'socket.io-client';
+import { Observable, concat } from 'rxjs';
+import { SocketService } from '../services/socket.service';
+import {BehaviorSubject} from 'rxjs';
 
 
 
@@ -16,15 +17,35 @@ export class ChartComponent implements OnInit {
   @Input() columnsToDisplay;
   @Input() isResults;
 
-  socket;
-
-  constructor() {
-    this.socket = io();
+  constructor(private socket: SocketService) {
+    this.socket.emit('event', this.isResults).subscribe(
+      (data) => {
+          console.log('Success',data);
+      },
+      (error) => {
+          console.log('Error',error);
+      },
+      () => {
+          console.log('complete');
+      }
+    );
   }
 
   ngOnInit() {
-    this.socket.on('newResultAdded', ()=> {
-      console.log("added")
-    })
+    this.socket.on('currentData')
+      .subscribe(
+        data => {
+          if(!this.charts) {
+            this.charts = data;
+          }
+        }
+      )
+      
+      
+      this.socket.on("saveResult").subscribe(
+        data => {
+          this.charts = data;
+        }
+      )
   }
 }

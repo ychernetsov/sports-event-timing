@@ -1,45 +1,28 @@
-const Result = require("../../server/db/models/result");
+const request = require("request");
 const sportsmanJson = require("../../test-client/db.json");
 
 //update final time result in Results Collection
-function updateDocument(data, res) {
-  Result.updateOne({ _id: data.chip_id }, { "crossed": data.crossed })
-    .exec()
-    .then(data => {
-    //   res.status(200).json({
-    //       message: 'Result updated'
-    //   });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: "Failed to update result", err
-      });
-    });
-}
+
 
 //Save result Results Collection with time of entering finishing corridor
-function saveDocument(data, res) {
-    const result = new Result({
-        _id: data.chip_id,
-        finishing: data.finishing,
-        crossed: data.crossed,
-        sportsman: data.chip_id
-      });
-      result
-        .save()
-        .then(data => {
-        //   res.status(200).json({
-        //     message: "Saved result successfully",
-        //     createdResult: result
-        //   });
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({
-            error: "Results failed to save ", err
-          });
-        });
+function postRequest(method, payload) {
+    console.log(JSON.stringify(payload))
+    method === 'update' ? 'PATCH' : 'POST' 
+    const options = {
+        uri: 'http://localhost:3000/results',
+        body: JSON.stringify(payload),
+        method: method,
+        headers: {
+        'Content-Type': 'application/json'
+        }
+    };
+    request(options, (error, response) => {
+        if (error) {
+        console.error(error);
+        }
+        return;
+    });
+      
 }
 
 //create dummy intervals for sportsmen and save them in DB
@@ -55,11 +38,11 @@ function populateData(response) {
             const ms = Math.floor(Math.random() * 60000) + 10000;
             delay(chip_id, ms, time0, "finishing")
             .then( data => {
-                saveDocument(data, res);
+                postRequest('POST', data);
                 const msu = Math.floor(Math.random() * 4000) + 1000;
                 delay(chip_id, msu, time0, "crossed")
                 .then( data =>  {
-                    updateDocument(data, res);
+                    postRequest('PATCH', data);
                 });
             });  
         });

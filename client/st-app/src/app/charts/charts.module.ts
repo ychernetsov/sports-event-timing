@@ -12,6 +12,7 @@ import { ChartsEffects } from './charts.effects';
 import { ChartsService } from './services/charts.service';
 import { chartsReducer } from './charts.reducer';
 import { resultsReducer } from './results.reducer';
+import { SocketService } from './services/socket.service';
 
 // export const coursesRoutes: Routes = [
 //   {
@@ -55,7 +56,8 @@ export const chartsRoutes: Routes = [
     HomeComponent
   ],
   providers: [
-    ChartsService
+    ChartsService,
+    SocketService
   ]
 })
 export class ChartsModule { }
