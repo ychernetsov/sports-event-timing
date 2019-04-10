@@ -1,3 +1,10 @@
 .mat-table {
     width: 100%;
 }
+.mat-row {
+    height: 30px;
+}
+
+.mat-cell {
+    font-size: 12px;
+}

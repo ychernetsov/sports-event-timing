@@ -1,5 +1,10 @@
-<table mat-table [dataSource]="charts">
+<table *ngIf="charts" mat-table table-striped [dataSource]="charts">
   
+  <ng-container matColumnDef="start_number">
+    <th mat-header-cell *matHeaderCellDef> No </th>
+    <td mat-cell *matCellDef="let sportsman"> {{sportsman.start_number}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="sportsmanName">
     <th mat-header-cell *matHeaderCellDef> Name </th>
     <td mat-cell *matCellDef="let sportsman"> {{sportsman.name}} </td>
@@ -10,17 +15,17 @@
     <td mat-cell *matCellDef="let sportsman"> {{sportsman.lastname}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="finishing">
+  <ng-container *ngIf="isResults" matColumnDef="finishing">
     <th mat-header-cell *matHeaderCellDef> Finishing </th>
-    <td mat-cell *matCellDef="let sportsman"> {{sportsman.start_number}} </td>
+    <td mat-cell *matCellDef="let sportsman"> {{sportsman.finishing}} </td>
   </ng-container>
 
-  <!-- <ng-container matColumnDef="crossed">
+  <ng-container *ngIf="isResults" matColumnDef="crossed">
     <th mat-header-cell *matHeaderCellDef> Crossed </th>
     <td mat-cell *matCellDef="let sportsman"> {{sportsman.crossed}} </td>
-  </ng-container> -->
+  </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-
+  
 </table>

@@ -1,5 +1,5 @@
 export interface Sportsmen {
-    "_id": String,
+    "id": String,
     "start_number": String,
     "name": String,
     "lastname": String

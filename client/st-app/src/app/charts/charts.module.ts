@@ -4,18 +4,35 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { ChartComponent } from './chart/chart.component';
 import { HomeComponent } from './home/home.component';
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import * as fromCharts from './charts.reducer';
+
 import { EffectsModule } from '@ngrx/effects';
 import { ChartsEffects } from './charts.effects';
 import { ChartsService } from './services/charts.service';
+import { chartsReducer } from './charts.reducer';
+import { resultsReducer } from './results.reducer';
 
-export const coursesRoutes: Routes = [
+// export const coursesRoutes: Routes = [
+//   {
+//       path: '',
+//       component: HomeComponent
+
+//   }
+// ];
+export const chartsRoutes: Routes = [
   {
-      path: '',
-      component: HomeComponent
-
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/sportsmen'
+  },
+  {
+    path: 'sportsmen/:results',
+    component: ChartComponent
+  },
+  {
+    path: 'sportsmen',
+    component: ChartComponent
   }
 ];
 
@@ -26,7 +43,9 @@ export const coursesRoutes: Routes = [
     CommonModule,
     MatTabsModule,
     MatTableModule,
-    StoreModule.forFeature('charts', fromCharts.ChartsReducer),
+    RouterModule.forChild(chartsRoutes),
+    StoreModule.forFeature('charts', chartsReducer),
+    StoreModule.forFeature('results', resultsReducer),
     EffectsModule.forFeature([ChartsEffects])
   ],
   exports: [

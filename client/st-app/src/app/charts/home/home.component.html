@@ -4,18 +4,12 @@
     
     <mat-tab label="sportsmen">
       <h1>Sportsmen</h1>
-      <!-- <courses-card-list
-        [courses]="beginnerCourses$ | async">
-      </courses-card-list> -->
-      <app-chart [charts]="sportsmen$ | async"></app-chart>
+      <app-chart isResults="false" [columnsToDisplay]="forSportsmen" [charts]="sportsmen$ | async"></app-chart>
     </mat-tab>
     
-    <mat-tab label="results">
+    <mat-tab label="results" >
       <h1>Results</h1>
-      <!-- <courses-card-list
-        [courses]="beginnerCourses$ | async">
-      </courses-card-list> -->
-      <app-chart></app-chart>
+      <app-chart isResults="true" [columnsToDisplay]="forResults" [charts]="results$ | async"></app-chart>
     </mat-tab>
 
   </mat-tab-group>
