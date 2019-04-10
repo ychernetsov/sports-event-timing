@@ -1,7 +1,6 @@
 const app = require("express")();
 const http = require("http").Server(app);
-//const io = require("socket.io")(http);
-const io = (module.exports = require('socket.io')(http));
+const io = require("socket.io")(http);
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const connection = require('./db');
@@ -11,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 
 
-app.set('io', io);
+//app.set('io', io);
 
 //Routes
 const homePageRoute = require("./api/routes/hp");
@@ -53,13 +52,18 @@ app.use("/", homePageRoute);
 app.use("/sportsmen", sportsmenRoutes);
 app.use("/results", resultsRoutes);
 
-io.on('connection', socketController.saveResult);
+io.on('connection', socketController.manageResults);
 // io.on('connection', function(socket){
 //   console.log('an user connected');
 //   socket.on('disconnect', function(){
 //     console.log('user disconnected');
 //   });
 // });
+// io.on("connection", socket => {
+//   socket.on("start", ()=> {
+//     console.log("GOTCHA")
+//   })
+// })
 
 http.listen(port, () => {
     console.log(`Starting server on localhost:${port}`)

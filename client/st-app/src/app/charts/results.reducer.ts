@@ -11,7 +11,7 @@ export interface ResultsState extends EntityState<Results> {
 export const adapter: EntityAdapter<Results> = createEntityAdapter<Results>()
 
 export const initialResultsState: ResultsState = adapter.getInitialState( {
-  //allChartsLoaded: false
+  resultsAdded: null
 });
 
 export function resultsReducer(state = initialResultsState, action: ChartsActions): ResultsState {
@@ -19,10 +19,18 @@ export function resultsReducer(state = initialResultsState, action: ChartsAction
 
     case ChartsActionTypes.AllResultsLoaded:
     
-      return adapter.addAll(action.payload.results, state);
+        return adapter.addAll(action.payload.results, state);
 
+    case ChartsActionTypes.ResultAdded:
+
+        return adapter.addOne(action.payload, state)
+    
+    case ChartsActionTypes.ResultUpdated:
+    
+        return adapter.updateOne({ id: action.id, changes: action.changes }, state)
+    
     default:
-      return state;
+        return state;
   }
 }
 

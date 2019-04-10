@@ -14,6 +14,7 @@ export class SocketService {
         this.socket.on("error", (error: string) => {
             console.log(`ERROR: "${error}" (${this.host})`);
         });
+        //this.socket.emit("3000", "start", (chanel, message) => this.emit(chanel, message))
     }
     connect () {
         this.socket.connect();
@@ -21,18 +22,8 @@ export class SocketService {
     disconnect () {
         this.socket.disconnect();
     }
-    emit(chanel, message) {
-        return new Observable<any>(observer => {
-            console.log(`emit to ${chanel}:`,message);
-            this.socket.emit(chanel, message, function (data) {
-                if (data.success) {
-                    observer.next(data.msg);
-                } else {
-                    observer.error(data.msg);
-                }
-                observer.complete();
-            });
-        });
+    emit(message, data = null) {
+        this.socket.emit(message, data);
     }
     on(event_name) {
         console.log(`listen to ${event_name}:`);

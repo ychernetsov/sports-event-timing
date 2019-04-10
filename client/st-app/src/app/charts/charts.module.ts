@@ -6,6 +6,7 @@ import { ChartComponent } from './chart/chart.component';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
+import {MatButtonModule} from '@angular/material/button';
 
 import { EffectsModule } from '@ngrx/effects';
 import { ChartsEffects } from './charts.effects';
@@ -42,6 +43,7 @@ export const chartsRoutes: Routes = [
   declarations: [ChartComponent, HomeComponent],
   imports: [
     CommonModule,
+    MatButtonModule,
     MatTabsModule,
     MatTableModule,
     RouterModule.forChild(chartsRoutes),

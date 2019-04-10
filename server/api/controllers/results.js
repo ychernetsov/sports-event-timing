@@ -23,7 +23,13 @@ exports.updateResult = (req, res, next) => {
     Result.updateOne({ _id: req.body.chip_id }, { "crossed": req.body.crossed })
       .exec()
       .then(data => {
-        req.io.emit('updateResult', data);
+        Result.findById(req.body.chip_id)
+          .select("-__v -_id")
+          .populate('sportsman')
+          .exec()
+          .then(result => {
+            req.io.emit('updateResult', result);
+          })
       })
       .catch(err => {
         console.log(err);
@@ -43,8 +49,13 @@ exports.updateResult = (req, res, next) => {
       result
         .save()
         .then(data => {
-            console.log("emit save result", req.io)
-            req.io.emit('saveResult', data);
+          Result.findById(data._id)
+          .select("-__v -_id")
+          .populate('sportsman')
+          .exec()
+          .then(result => {
+            req.io.emit('saveResult', result);
+          })
         //   res.status(200).json({
         //     message: "Saved result successfully",
         //     createdResult: result

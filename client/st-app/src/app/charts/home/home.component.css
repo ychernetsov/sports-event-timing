@@ -2,3 +2,13 @@
     width: 50%;
     margin: 0 auto;
 }
+
+.mat-raised-button {
+    left: 35%;
+    margin: 30px;
+    width: 150px;
+    background-color: #94eca7;
+    color: #fff;
+    font-size: 1.5em;
+    font-family: monospace;
+}

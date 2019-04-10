@@ -52,4 +52,9 @@ export class ChartsService {
                 })
             );
     }
+
+    startRace() {
+        console.log("3....2....1.....RUN!")
+        return this.http.get('http://localhost:4000/start');
+    }
 }
