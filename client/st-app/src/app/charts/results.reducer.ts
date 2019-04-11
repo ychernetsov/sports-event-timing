@@ -5,13 +5,15 @@ import { Results } from './model/results.model';
 
 
 export interface ResultsState extends EntityState<Results> {
-  //allChartsLoaded: boolean
+  resultsAdded: number,
+  allResultsLoaded: boolean
 }
 
 export const adapter: EntityAdapter<Results> = createEntityAdapter<Results>()
 
 export const initialResultsState: ResultsState = adapter.getInitialState( {
-  resultsAdded: null
+  resultsAdded: 0,
+  allResultsLoaded: false
 });
 
 export function resultsReducer(state = initialResultsState, action: ChartsActions): ResultsState {
@@ -19,15 +21,18 @@ export function resultsReducer(state = initialResultsState, action: ChartsAction
 
     case ChartsActionTypes.AllResultsLoaded:
     
-        return adapter.addAll(action.payload.results, state);
+        return adapter.addAll(action.payload.results, {...state, allResultsLoaded: true});
 
     case ChartsActionTypes.ResultAdded:
 
-        return adapter.addOne(action.payload, state)
+        return adapter.addOne(action.payload, state);
     
     case ChartsActionTypes.ResultUpdated:
     
-        return adapter.updateOne({ id: action.id, changes: action.changes }, state)
+        return adapter.updateOne({ id: action.id, changes: action.changes }, {...state, resultsAdded: state.resultsAdded + 1})
+    
+    case ChartsActionTypes.RemoveAllResults:
+        return adapter.removeAll(state);
     
     default:
         return state;

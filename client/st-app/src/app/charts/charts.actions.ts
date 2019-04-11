@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Sportsmen } from './model/sportmen.model';
 import { Results } from './model/results.model';
-import { Update } from '@ngrx/entity';
 
 
 export enum ChartsActionTypes {
@@ -12,7 +11,9 @@ export enum ChartsActionTypes {
   AllResultsLoaded = '[Results API] All Results Loaded',
 
   ResultAdded = '[Socket API] Result added',
-  ResultUpdated = '[Socket API] Result updated'
+  ResultUpdated = '[Socket API] Result updated',
+
+  RemoveAllResults = '[Results Home Page] All results are removed from store'
 }
 
 
@@ -58,22 +59,16 @@ export class ResultAdded implements Action {
 
 }
 
-// export class ResultUpdated implements Action {
-
-//   readonly type = ChartsActionTypes.ResultUpdated;
-
-//   constructor(public payload: Update<Results>) {
-
-//   }
-
-// }
-
 export class ResultUpdated implements Action {
   readonly type = ChartsActionTypes.ResultUpdated;
   constructor(
     public id: string,
     public changes: Partial<Results>,
   ) { }
+}
+
+export class RemoveAllResults implements Action {
+  readonly type = ChartsActionTypes.RemoveAllResults;
 }
 
 export type ChartsActions =
@@ -83,3 +78,4 @@ export type ChartsActions =
   | AllResultsLoaded
   | ResultAdded
   | ResultUpdated
+  | RemoveAllResults

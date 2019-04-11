@@ -14,6 +14,7 @@ import { ChartsService } from './services/charts.service';
 import { chartsReducer } from './charts.reducer';
 import { resultsReducer } from './results.reducer';
 import { SocketService } from './services/socket.service';
+import { FormatstampPipe } from '../shared/formatstamp.pipe';
 
 // export const coursesRoutes: Routes = [
 //   {
@@ -40,7 +41,7 @@ export const chartsRoutes: Routes = [
 
 
 @NgModule({
-  declarations: [ChartComponent, HomeComponent],
+  declarations: [ChartComponent, HomeComponent, FormatstampPipe],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -55,7 +56,8 @@ export const chartsRoutes: Routes = [
     MatTabsModule,
     MatTableModule,
     ChartComponent,
-    HomeComponent
+    HomeComponent,
+    FormatstampPipe
   ],
   providers: [
     ChartsService,

@@ -12,14 +12,30 @@ export const selectResultsState = createFeatureSelector<ResultsState>("results")
 export const selectAllSportsmen = createSelector(
     selectChartsState,
     fromCharts.selectAll
-)
+);
+
+export const sportsmenCount = createSelector(
+    selectAllSportsmen,
+    sportsmen => sportsmen.length
+);
 
 export const allChartsLoaded = createSelector(
     selectChartsState,
     chartsState => chartsState.allChartsLoaded
-  );
+);
+
+export const allResultsLoaded = createSelector(
+    selectResultsState,
+    resultsState => resultsState.allResultsLoaded
+);
 
 export const selectAllResults = createSelector(
     selectResultsState,
     fromResults.selectAll
-)
+);
+
+export const resultsAdded = createSelector(
+    selectResultsState,
+    resultsState => resultsState.resultsAdded
+);
+

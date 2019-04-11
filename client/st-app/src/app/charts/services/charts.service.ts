@@ -38,7 +38,6 @@ export class ChartsService {
                 map(res => {
                     return res['results'].map(
                         result => {
-                            console.log(result)
                             return {
                                 "id": result.sportsman._id,
                                 "finishing": result.finishing,
@@ -51,10 +50,5 @@ export class ChartsService {
                     )
                 })
             );
-    }
-
-    startRace() {
-        console.log("3....2....1.....RUN!")
-        return this.http.get('http://localhost:4000/start');
     }
 }

@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { AllSportsmenRequested, ChartsActionTypes, AllSportsmenLoaded, AllResultsRequested, AllResultsLoaded } from './charts.actions';
 import {mergeMap, map, withLatestFrom, filter} from "rxjs/operators";
 import { ChartsService } from './services/charts.service';
-import { allChartsLoaded } from './charts.selectors';
+import { allChartsLoaded, allResultsLoaded } from './charts.selectors';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
 
@@ -30,17 +30,23 @@ export class ChartsEffects {
       withLatestFrom(this.store.pipe(select(allChartsLoaded))),
       filter(([action, allChartsLoaded]) => !allChartsLoaded),
       mergeMap(() => this.chartsService.getAllSportsmen()),
-      map(sportsmen => new AllSportsmenLoaded({sportsmen}))
+      map(sportsmen => {
+        console.log("sp ", sportsmen)
+        return new AllSportsmenLoaded({sportsmen})
+      })
     );
 
   @Effect()
   loadAllResults$ = this.actions$
     .pipe(
       ofType<AllResultsRequested>(ChartsActionTypes.AllResultsRequested),
-      // withLatestFrom(this.store.pipe(select(allChartsLoaded))),
-      // filter(([action, allChartsLoaded]) => !allChartsLoaded),
+      withLatestFrom(this.store.pipe(select(allResultsLoaded))),
+      filter(([action, allResultsLoaded]) => !allResultsLoaded),
       mergeMap(() => this.chartsService.getAllResults()),
-      map(results => new AllResultsLoaded({results}))
+      map(results => {
+        console.log(results)
+        return new AllResultsLoaded({results})
+      })
     );
 
   constructor(private chartsService: ChartsService, private actions$: Actions, private store: Store<AppState>) {}

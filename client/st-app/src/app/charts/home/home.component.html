@@ -1,19 +1,29 @@
 <div class="charts-wrapper">
-
+  <div class="information-wrapper">
+    <div class="time-counter">
+      <span class="minutes">{{ min | formatstamp:'ts' }} :</span>
+      <span class="seconds">{{ sec | formatstamp:'ts' }} :</span>
+      <span class="mseconds">{{ msec | formatstamp:'ms' }}</span>
+    </div>
+    <div class="finished-counter">
+      <div> Already finished </div> 
+      <div>{{sportsmenCount$ | async}} / {{resultsAdded$ | async }}</div>
+    </div>
+  </div>
   <mat-tab-group mat-align-tabs="center">
     
     <mat-tab label="sportsmen">
       <h1>Sportsmen</h1>
-      <app-chart isResults="false" [columnsToDisplay]="forSportsmen" [charts]="sportsmen$ | async"></app-chart>
+      <app-chart isResults="false" [columnsToDisplay]="forSportsmen" [charts$]="sportsmen$"></app-chart>
     </mat-tab>
     
     <mat-tab label="results">
       <h1>Results</h1>
-      <app-chart isResults="true" [columnsToDisplay]="forResults" [charts]="results$"></app-chart>
+      <app-chart isResults="true" [columnsToDisplay]="forResults" [charts$]="results$"></app-chart>
     </mat-tab>
 
   </mat-tab-group>
 
-  <button mat-raised-button (click)="start()">Start</button>
+  <button [disabled]="raceStarted" mat-raised-button (click)="start()">Start</button>
 
 </div>
