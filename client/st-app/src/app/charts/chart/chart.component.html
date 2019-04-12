@@ -1,5 +1,5 @@
 <table *ngIf="charts$" mat-table table-striped [dataSource]="charts$">
-  
+
   <ng-container matColumnDef="start_number">
     <th mat-header-cell *matHeaderCellDef> No </th>
     <td mat-cell *matCellDef="let sportsman"> {{sportsman.start_number}} </td>
@@ -27,5 +27,5 @@
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-  
+
 </table>

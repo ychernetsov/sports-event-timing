@@ -34,8 +34,24 @@ export const selectAllResults = createSelector(
     fromResults.selectAll
 );
 
+export const filterAllResults = createSelector(
+  selectAllResults,
+  results => results.sort()
+);
+
 export const resultsAdded = createSelector(
     selectResultsState,
     resultsState => resultsState.resultsAdded
 );
+
+export const resultsCount = createSelector(
+  selectAllResults,
+  results => results.length
+);
+
+export const raceFinished = createSelector(
+  selectResultsState,
+  selectChartsState,
+  (results, charts) => results.resultsAdded === charts.chartsLength
+)
 

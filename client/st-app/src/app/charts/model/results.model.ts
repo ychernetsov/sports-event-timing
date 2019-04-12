@@ -1,10 +1,10 @@
 import { Sportsmen } from './sportmen.model';
 
 export interface Results {
-    "id": String,
-    "finishing": String,
-    "crossed": String,
-    "name": String,
-    "lastname": String,
-    "start_number": String
+    "id": string,
+    "finishing": string,
+    "crossed": string,
+    "name": string,
+    "lastname": string,
+    "start_number": string
 }

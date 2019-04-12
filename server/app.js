@@ -53,21 +53,9 @@ app.use("/sportsmen", sportsmenRoutes);
 app.use("/results", resultsRoutes);
 
 io.on('connection', socketController.manageResults);
-// io.on('connection', function(socket){
-//   console.log('an user connected');
-//   socket.on('disconnect', function(){
-//     console.log('user disconnected');
-//   });
-// });
-// io.on("connection", socket => {
-//   socket.on("start", ()=> {
-//     console.log("GOTCHA")
-//   })
-// })
 
 http.listen(port, () => {
     console.log(`Starting server on localhost:${port}`)
 });
-//io.on('connection', socketController.saveResult);
 
 module.exports = app;

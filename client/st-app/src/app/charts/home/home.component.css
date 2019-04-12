@@ -14,26 +14,28 @@
 }
 
 .time-counter, .finished-counter {
-    width: 300px;
-    height: 150px;
-    font-size: 1.5em;
+    width: 200px;
+    height: 90x;
     font-family: monospace;
-    border: 1px solid #e8dede;
     border-radius: 25px;
-    padding: 42px;
+    padding: 19px;
     color: #fff;
+    margin-top: 20px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.42);
 }
 
 .time-counter {
     background-color: #67ade8;
-    font-size: 35px;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 27px;
 
-    
+
 }
 
 .finished-counter {
     background-color: #67ade8;
-    font-size: 20px;  
+    font-size: 16px;
 }
 
 .finished-counter div:nth-child(1) {
@@ -41,11 +43,19 @@
 }
 
 .finished-counter div:nth-child(2) {
-    width: 33%;
+    width: 40%;
     margin: 0 auto;
 }
 
 .information-wrapper {
     display: flex;
     justify-content: space-around;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+.mat-raised-button:hover {
+  opacity: .7;
 }

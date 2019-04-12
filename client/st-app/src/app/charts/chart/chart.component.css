@@ -1,5 +1,7 @@
 .mat-table {
-    width: 100%;
+    width: auto;
+    margin: 0 auto;
+    min-width: 430px;
 }
 .mat-row {
     height: 30px;
@@ -7,4 +9,5 @@
 
 .mat-cell {
     font-size: 12px;
+    width: 18%
 }

@@ -30,10 +30,7 @@ export class ChartsEffects {
       withLatestFrom(this.store.pipe(select(allChartsLoaded))),
       filter(([action, allChartsLoaded]) => !allChartsLoaded),
       mergeMap(() => this.chartsService.getAllSportsmen()),
-      map(sportsmen => {
-        console.log("sp ", sportsmen)
-        return new AllSportsmenLoaded({sportsmen})
-      })
+      map(sportsmen => new AllSportsmenLoaded({sportsmen}))
     );
 
   @Effect()
@@ -43,10 +40,7 @@ export class ChartsEffects {
       withLatestFrom(this.store.pipe(select(allResultsLoaded))),
       filter(([action, allResultsLoaded]) => !allResultsLoaded),
       mergeMap(() => this.chartsService.getAllResults()),
-      map(results => {
-        console.log(results)
-        return new AllResultsLoaded({results})
-      })
+      map(results => new AllResultsLoaded({results}))
     );
 
   constructor(private chartsService: ChartsService, private actions$: Actions, private store: Store<AppState>) {}

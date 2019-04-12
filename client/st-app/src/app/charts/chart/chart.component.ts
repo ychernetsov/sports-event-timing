@@ -1,9 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { SocketService } from '../services/socket.service';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
 import { ResultAdded, ResultUpdated } from '../charts.actions';
+import { MatSort } from '@angular/material/sort';
+import { tap } from 'rxjs/operators';
+import { sportsmenCount, resultsCount } from '../charts.selectors';
 
 
 
@@ -19,48 +22,52 @@ export class ChartComponent implements OnInit {
   @Input() charts$: Observable<any[]>;
   @Input() columnsToDisplay;
   @Input() isResults;
+  @ViewChild(MatSort) sort: MatSort;
+  sportsmenCount$: Observable<number>;
+  resultsCount$: Observable<number>;
 
   constructor(private socket: SocketService, private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.socket.on('currentData')
-    .subscribe(
-      data => {
-          this.charts$ = data;
-      }
-    )
+    this.sportsmenCount$ = this.store.pipe(
+      select(sportsmenCount)
+    );
 
-    this.socket.on("saveResult").subscribe(
+    this.resultsCount$ = this.store.pipe(
+      select(resultsCount)
+    );
+
+    this.socket.on('saveResult').subscribe(
       data => {
-          console.log("Res saved")
           const resultObj = {
-            "id": data.sportsman._id,
-            "finishing": data.finishing, 
-            "crossed": data.crossed, 
-            "name": data.sportsman.name,
-            "lastname": data.sportsman.lastname,
-            "start_number": data.sportsman.start_number
-          }
+            'id': data.sportsman._id,
+            'finishing': data.finishing,
+            'crossed': data.crossed,
+            'name': data.sportsman.name,
+            'lastname': data.sportsman.lastname,
+            'start_number': data.sportsman.start_number
+          };
 
           this.store.dispatch(new ResultAdded(resultObj));
-        
+
       }
     );
 
-    this.socket.on("updateResult").subscribe(
+    this.socket.on('updateResult').subscribe(
       data => {
         const resultObj = {
-          "id": data.sportsman._id,
-          "finishing": data.finishing, 
-          "crossed": data.crossed, 
-          "name": data.sportsman.name,
-          "lastname": data.sportsman.lastname,
-          "start_number": data.sportsman.start_number
+          'id': data.sportsman._id,
+          'finishing': data.finishing,
+          'crossed': data.crossed,
+          'name': data.sportsman.name,
+          'lastname': data.sportsman.lastname,
+          'start_number': data.sportsman.start_number
         };
 
         this.store.dispatch(new ResultUpdated(data.sportsman._id, resultObj));
-
       }
-    )
+    );
+
+
   }
 }

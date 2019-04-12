@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatstampPipe implements PipeTransform {
 
   transform(value: number, args?: string): string | number {
-    console.log(args)
     if(args === "ts") {
       return value <= 9 ? "0" + value : value;
     }

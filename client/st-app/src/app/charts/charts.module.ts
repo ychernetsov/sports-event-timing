@@ -15,6 +15,7 @@ import { chartsReducer } from './charts.reducer';
 import { resultsReducer } from './results.reducer';
 import { SocketService } from './services/socket.service';
 import { FormatstampPipe } from '../shared/formatstamp.pipe';
+import { MatSortModule } from '@angular/material/sort';
 
 // export const coursesRoutes: Routes = [
 //   {
@@ -46,6 +47,7 @@ export const chartsRoutes: Routes = [
     CommonModule,
     MatButtonModule,
     MatTabsModule,
+    MatSortModule,
     MatTableModule,
     RouterModule.forChild(chartsRoutes),
     StoreModule.forFeature('charts', chartsReducer),
@@ -57,7 +59,8 @@ export const chartsRoutes: Routes = [
     MatTableModule,
     ChartComponent,
     HomeComponent,
-    FormatstampPipe
+    FormatstampPipe,
+    MatSortModule
   ],
   providers: [
     ChartsService,

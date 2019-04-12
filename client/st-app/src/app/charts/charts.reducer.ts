@@ -5,21 +5,25 @@ import { allChartsLoaded } from './charts.selectors';
 
 
 export interface ChartsState extends EntityState<Sportsmen> {
-  allChartsLoaded: boolean
+  allChartsLoaded: boolean,
+  chartsLength: number
 }
 
-export const adapter: EntityAdapter<Sportsmen> = createEntityAdapter<Sportsmen>()
+export const adapter: EntityAdapter<Sportsmen> = createEntityAdapter<Sportsmen>({
+  sortComparer: (modelA, modelB) => modelA.start_number === modelB.start_number ? 0 : (modelA.start_number === modelB.start_number ? 1 : -1)
+})
 
 export const initialChartsState: ChartsState = adapter.getInitialState( {
-  allChartsLoaded: false
+  allChartsLoaded: false,
+  chartsLength: null
 });
 
 export function chartsReducer(state = initialChartsState, action: ChartsActions): ChartsState {
   switch (action.type) {
 
     case ChartsActionTypes.AllSportsmenLoaded:
-    
-      return adapter.addAll(action.payload.sportsmen, {...state, allChartsLoaded: true});
+
+      return adapter.addAll(action.payload.sportsmen, {...state, allChartsLoaded: true, chartsLength: action.payload.sportsmen.length});
 
     default:
       return state;

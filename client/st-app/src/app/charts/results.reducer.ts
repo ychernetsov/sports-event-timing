@@ -9,7 +9,12 @@ export interface ResultsState extends EntityState<Results> {
   allResultsLoaded: boolean
 }
 
-export const adapter: EntityAdapter<Results> = createEntityAdapter<Results>()
+export function sortByCrossingTime(a: Results, b: Results): number {
+  return a.start_number.localeCompare(b.start_number);
+}
+export const adapter: EntityAdapter<Results> = createEntityAdapter<Results>({
+
+});
 
 export const initialResultsState: ResultsState = adapter.getInitialState( {
   resultsAdded: 0,
@@ -20,20 +25,20 @@ export function resultsReducer(state = initialResultsState, action: ChartsAction
   switch (action.type) {
 
     case ChartsActionTypes.AllResultsLoaded:
-    
+
         return adapter.addAll(action.payload.results, {...state, allResultsLoaded: true});
 
     case ChartsActionTypes.ResultAdded:
 
         return adapter.addOne(action.payload, state);
-    
+
     case ChartsActionTypes.ResultUpdated:
-    
+
         return adapter.updateOne({ id: action.id, changes: action.changes }, {...state, resultsAdded: state.resultsAdded + 1})
-    
+
     case ChartsActionTypes.RemoveAllResults:
-        return adapter.removeAll(state);
-    
+        return adapter.removeAll({...state, resultsAdded: 0});
+
     default:
         return state;
   }

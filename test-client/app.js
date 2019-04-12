@@ -1,13 +1,10 @@
 const express = require("express");
 const app = express();
 const testClientService = require("./test-client-service");
-const Results = require("../server/db/models/result");
-const connection = require("../server/db");
-
 
 //Sent dummy data
 app.use("/start", (req, res, next) => {
-    testClientService.sentDummyData(connection, Results, res)
+    testClientService.sentDummyData(res)
     res.status(200);
 });
 

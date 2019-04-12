@@ -1,12 +1,7 @@
 const request = require("request");
 const sportsmanJson = require("../../test-client/db.json");
 
-//update final time result in Results Collection
-
-
-//Save result Results Collection with time of entering finishing corridor
 function postRequest(method, payload) {
-    console.log(JSON.stringify(payload))
     method === 'update' ? 'PATCH' : 'POST' 
     const options = {
         uri: 'http://localhost:3000/results',
@@ -38,7 +33,7 @@ function populateData(response) {
             const ms = Math.floor(Math.random() * 60000) + 10000;
             delay(chip_id, ms, time0, "finishing")
             .then( data => {
-                postRequest('POST', data);
+                    postRequest('POST', data);
                 const msu = Math.floor(Math.random() * 4000) + 1000;
                 delay(chip_id, msu, time0, "crossed")
                 .then( data =>  {
@@ -46,7 +41,9 @@ function populateData(response) {
                 });
             });  
         });
+        
     }, Promise.resolve([]));
+
 }
 
 function formatTs(ts) {
@@ -58,7 +55,6 @@ function formatMs(ms) {
 }
 
 function format(time) {
-    console.log("T ", time)
     const min = time % 60000 === time ? "00" : formatTs(String(parseInt(time/60000)));
     const sec = formatTs(String(parseInt(time/1000 % 60)));
     const ms = formatMs(String(time/1000 % 60).match(/\.(\d{1,3})/)[1]);
@@ -68,7 +64,7 @@ function format(time) {
 function delay(chip_id, ms, time0, status) {
     
     return new Promise((resolve, reject) => {
-        setTimeout(()=> {
+        timeout = setTimeout(()=> {
         	const time1 = new Date().getTime();
     		const diff = time1 - time0;
             const result = {
@@ -82,29 +78,8 @@ function delay(chip_id, ms, time0, status) {
     });
 }
 
-//every new start of the race drops old results ...
-async function dropCollection(connection) {
-    await connection.db.listCollections()
-        .next((err, collection) => {
-            if (collection) {
-                connection.db.dropCollection('results', (err, result) =>
-                    console.log('Old result collection has been droped')
-                );
-            }
-        });
-}
-
-//... and creates new collection for new results
-async function createCollection(collection) {
-    await collection.createCollection().then(function(col) {
-        console.log('Collection is created!');
-      });
-}
-
 module.exports = {
-    async sentDummyData(connection, collection, res) {
-        await dropCollection(connection)
-        await createCollection(collection)
+    async sentDummyData(res) {
         await populateData(res)
-    } 
+    }
 }
