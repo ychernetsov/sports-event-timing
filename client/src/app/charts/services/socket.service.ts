@@ -14,7 +14,6 @@ export class SocketService {
         this.socket.on("error", (error: string) => {
             console.log(`ERROR: "${error}" (${this.host})`);
         });
-        //this.socket.emit("3000", "start", (chanel, message) => this.emit(chanel, message))
     }
     connect () {
         this.socket.connect();

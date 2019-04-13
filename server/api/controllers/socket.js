@@ -35,22 +35,15 @@ async function makePOSTRequest(uri, method, payload) {
     });
 }
 exports.manageResults = socket => {
-    const latest_time_ts = new Date().getTime() 
-    // socket.emit('reloadPage', latest_time_ts )
     Result.find({}, (err, data) => {
-        socket.emit('currentData', {data, latest_time_ts});
+        socket.emit('currentData', data);
     });
-    // const payload = {
-    //     "started": false,
-    //     "finished": false,
-    //     "latest_time_ts": new Date().getTime() 
-    // }
-    // makePOSTRequest('http://localhost:3000/results/status', 'PATCH', payload);
+
     socket.on('start', () => {
         const payload = {
             "started": true,
             "finished": false,
-            "latest_time_ts": new Date().getTime() 
+            "start_time": new Date().getTime() 
         }
         makeGetRequest('http://localhost:4000/start', 'GET');
         makePOSTRequest('http://localhost:3000/results/status', 'PATCH', payload);
@@ -63,14 +56,12 @@ exports.manageResults = socket => {
     socket.on('finished', () => {
         const payload = {
             "started": false,
-            "finished": true,
-            "latest_time_ts": new Date().getTime() 
+            "finished": true
         }
         makePOSTRequest('http://localhost:3000/results/status', 'PATCH', payload);  
     });
 
     socket.on("disconnect", () => {
         console.log("DISCONNECTED");
-        
     });
 }

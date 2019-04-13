@@ -12,4 +12,6 @@ router.patch("/",  resultsController.updateResult);
 
 router.patch("/status",  resultsController.updateStatus);
 
+router.post("/status",  resultsController.postStatus);
+
 module.exports = router;

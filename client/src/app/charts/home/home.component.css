@@ -28,9 +28,7 @@
     background-color: #67ade8;
     font-size: 18px;
     text-align: center;
-    padding-top: 27px;
-
-
+    padding-top: 4.5%;
 }
 
 .finished-counter {
@@ -43,7 +41,7 @@
 }
 
 .finished-counter div:nth-child(2) {
-    width: 40%;
+    width: 45%;
     margin: 0 auto;
 }
 

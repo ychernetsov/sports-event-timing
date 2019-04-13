@@ -5,6 +5,4 @@ router.get("/", (req, res, next) => {
     res.redirect("/sportsmen")
 });
 
-
-
 module.exports = router;

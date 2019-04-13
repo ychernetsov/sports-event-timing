@@ -1,7 +1,6 @@
 import { Sportsmen } from './model/sportmen.model';
 import { ChartsActions, ChartsActionTypes } from './charts.actions';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
-import { allChartsLoaded } from './charts.selectors';
 
 
 export interface ChartsState extends EntityState<Sportsmen> {

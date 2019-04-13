@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SocketService } from '../services/socket.service';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
 import { ResultAdded, ResultUpdated } from '../charts.actions';
 import { MatSort } from '@angular/material/sort';
-import { tap } from 'rxjs/operators';
 import { sportsmenCount, resultsCount } from '../charts.selectors';
 
 
@@ -22,7 +21,6 @@ export class ChartComponent implements OnInit {
   @Input() charts$: Observable<any[]>;
   @Input() columnsToDisplay;
   @Input() isResults;
-  @ViewChild(MatSort) sort: MatSort;
   sportsmenCount$: Observable<number>;
   resultsCount$: Observable<number>;
 
@@ -49,7 +47,6 @@ export class ChartComponent implements OnInit {
           };
 
           this.store.dispatch(new ResultAdded(resultObj));
-
       }
     );
 
@@ -67,7 +64,5 @@ export class ChartComponent implements OnInit {
         this.store.dispatch(new ResultUpdated(data.sportsman._id, resultObj));
       }
     );
-
-
   }
 }

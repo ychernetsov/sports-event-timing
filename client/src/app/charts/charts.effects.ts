@@ -37,10 +37,7 @@ export class ChartsEffects {
     .pipe(
       ofType<StatusRequested>(ChartsActionTypes.StatusRequested),
       withLatestFrom(this.store.pipe(select(statusLoaded))),
-      filter(([action, statusLoaded]) => {
-        console.log("1 ", action, statusLoaded)
-        return !statusLoaded
-      }),
+      filter(([action, statusLoaded]) => !statusLoaded),
       mergeMap(() => this.chartsService.getStatus()),
       map(status => new StatusLoaded(status))
     );

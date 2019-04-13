@@ -11,7 +11,7 @@ app.use("/start", (req, res, next) => {
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
-    console.log(`Test Client is sending dummy data on localhost:${port}`)
+    console.log(`Client is generating dummy data on localhost:${port}`)
 })
 
 module.exports = app;

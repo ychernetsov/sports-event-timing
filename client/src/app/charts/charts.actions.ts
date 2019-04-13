@@ -89,8 +89,6 @@ export class RemoveAllResults implements Action {
   readonly type = ChartsActionTypes.RemoveAllResults;
 }
 
-
-
 export type ChartsActions =
   | AllSportsmenRequested
   | AllSportsmenLoaded

@@ -58,10 +58,6 @@ exports.updateResult = (req, res, next) => {
           .then(result => {
             req.io.emit('saveResult', result);
           })
-        //   res.status(200).json({
-        //     message: "Saved result successfully",
-        //     createdResult: result
-        //   });
         })
         .catch(err => {
           console.log(err);
@@ -71,12 +67,12 @@ exports.updateResult = (req, res, next) => {
         });
       }
     exports.updateStatus = (req, res, next) => {
-      const id = "5cb0fe1620fc0827ec678343"
-      RaceStatus.updateOne({ _id: id }, { 
-        "started": req.body.started,
-        "finished": req.body.finished,
-        "latest_time_ts": req.body.latest_time_ts
-      })
+      const id = "5cb1ac27b25dca040765c66f";
+      const payload = {};
+      for(let prop in req.body) {
+        payload[prop] = req.body[prop]
+      }
+      RaceStatus.updateOne({ _id: id }, payload)
       .exec()
       .then(data => {
         console.log("Status updated")
@@ -87,6 +83,26 @@ exports.updateResult = (req, res, next) => {
           error: "Failed to update status", err
         });
       });
+    }
+
+    exports.postStatus = (req, res, next) => {
+      const result = new RaceStatus({
+        _id: new mongoose.Types.ObjectId(),
+        started: req.body.started,
+        finished: req.body.finished,
+        start_time: req.body.start_time
+      });
+      result
+        .save()
+        .then(data => {
+          console.log("Saved ", data)
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).json({
+            error: "Results failed to save ", err
+          });
+        });
     }
 
     exports.getStatus = (req, res, next) => {

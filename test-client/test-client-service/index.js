@@ -16,8 +16,7 @@ function postRequest(method, payload) {
         console.error(error);
         }
         return;
-    });
-      
+    }); 
 }
 
 //create dummy intervals for sportsmen and save them in DB
@@ -43,7 +42,6 @@ function populateData(response) {
         });
         
     }, Promise.resolve([]));
-
 }
 
 function formatTs(ts) {
@@ -61,8 +59,8 @@ function format(time) {
     return `${min}:${sec}:${ms}`
 }
 
+//simulating finishing and crossed
 function delay(chip_id, ms, time0, status) {
-    
     return new Promise((resolve, reject) => {
         timeout = setTimeout(()=> {
         	const time1 = new Date().getTime();

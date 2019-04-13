@@ -11,9 +11,7 @@ import { Status } from '../model/status.model';
 @Injectable()
 export class ChartsService {
 
-    constructor(private http:HttpClient) {
-
-    }
+    constructor(private http:HttpClient) {}
 
     getAllSportsmen(): Observable<Sportsmen[]> {
         return this.http.get('http://localhost:3000/sportsmen')
@@ -57,17 +55,16 @@ export class ChartsService {
       return this.http.get('http://localhost:3000/results/status')
           .pipe(
               map(stat => {
-                console.log("Status", stat)
-                  return stat['status'].map(
-                      status => {
-                          return {
-                              "id": status._id,
-                              "started": status.started,
-                              "finished": status.finished,
-                              "latest_time_ts": status.latest_time_ts
-                          }
-                      }
-                  )
+                return stat['status'].map(
+                    status => {
+                        return {
+                            "id": status._id,
+                            "started": status.started,
+                            "finished": status.finished,
+                            "start_time": status.start_time
+                        }
+                    }
+                )
               })
           );
   }

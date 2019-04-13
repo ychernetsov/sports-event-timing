@@ -4,7 +4,7 @@ let RaceStatusSchema = new mongoose.Schema({
     "_id": mongoose.Schema.Types.ObjectId,
     "started": Boolean,
     "finished": Boolean,
-    "latest_time_ts": Number
+    "start_time": Number
 });
 
 let RaceStatus = mongoose.model('RaceStatus', RaceStatusSchema);

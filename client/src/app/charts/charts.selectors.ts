@@ -56,10 +56,7 @@ export const resultsCount = createSelector(
 export const raceFinished = createSelector(
   resultsCount,
   sportsmenCount,
-  (results, sportsmen) => {
-    console.log(results, sportsmen)
-    return results === 0 ? false : results === sportsmen
-  }
+  (results, sportsmen) => results === 0 ? false : results === sportsmen
 );
 
 export const statusLoaded = createSelector(

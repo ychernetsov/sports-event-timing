@@ -8,10 +8,6 @@ const socketController = require("./api/controllers/socket");
 
 const port = process.env.PORT || 3000;
 
-
-
-//app.set('io', io);
-
 //Routes
 const homePageRoute = require("./api/routes/hp");
 const sportsmenRoutes = require("./api/routes/sportsmen");
@@ -23,7 +19,6 @@ connection
     console.log(`Mongo connection is opened, starting server..`)
   });
   
-
 //Logging server actions
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -42,6 +37,7 @@ app.use((req, res, next) => {
     next();
 });
 
+//binding socket
 app.use((req, res, next) => {
   req.io = io;
   next();

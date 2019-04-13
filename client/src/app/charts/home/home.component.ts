@@ -35,7 +35,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-
     this.store.dispatch(new AllSportsmenRequested());
     this.sportsmen$ = this.store.pipe(
       select(selectAllSportsmen)
@@ -63,72 +62,66 @@ export class HomeComponent implements OnInit, OnDestroy {
       tap(data => data)
     ).subscribe(finished => {
       if(finished) {
-        this.clearTable(this.interval);
         this.socket.emit("finished");
         this.raceStarted = false;
+        console.log("FINISHED")
+        clearInterval(this.interval);
       }
-
     });
 
-    console.log("Dispatch STATUS")
     this.store.dispatch(new StatusRequested());
     this.raceStatus$ = this.store.pipe(
       select(selectStatus),
       map(status => status)
 
     ).subscribe(status => {
-      console.log("tap ", status)
       if(status.length > 0) {
         this.raceStarted = status[0].started;
-        this.latest_time = status[0].latest_time_ts
+        this.latest_time = status[0].start_time;
+        this.clearTable(this.interval);
       }
     })
 
     this.socket.on('started').subscribe(
       data => {
-        console.log("start ", data)
         this.raceStarted = true;
-      }
-    );
-
-    this.socket.on('finished').subscribe(
-      data => {
-        console.log("RACE FINISHED")
-        this.raceStarted = false;
       }
     );
 
     this.socket.on('currentData').subscribe(
       data => {
-        console.log("reloadPage ", data.latest_time_ts)
+        //constant clock on reload
         const current_ts = new Date().getTime();
-        const diff = (current_ts - data.latest_time_ts) * 10;
+        const diff = current_ts - this.latest_time;
+        console.log("1 ", diff, Math.ceil(diff/60000), this.timer)
         if(this.raceStarted) {
+          this.startclock();
           this.min = Math.floor(diff/60000);
           this.sec = Math.floor(diff/1000 % 60);
+          if (this.sec > 59) this.min += 1
           this.msec = 999;
-
-          this.startclock();
-          console.log("Coonnection", diff, current_ts, data.latest_time_ts)
+          this.timer = diff;
+          
         }
-
-
       }
     );
 
   }
 
   start(): void {
+      this.clearTable(this.interval);
       this.store.dispatch(new RemoveAllResults());
       this.socket.emit('start');
       this.startclock();
   }
 
   startclock(): void {
-
+    //start clock on press "start"
     this.interval = setInterval(() => {
+      //console.log()
       this.timer++;
       this.msec += 1;
+      //console.log(this.timer, this.min)
       if (this.timer % 6000 === 0) {
         this.min += 1;
         if (this.min > 59) {
@@ -138,6 +131,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (this.timer % 100 === 0) {
         this.sec += 1;
         if (this.sec > 59) {
+          console.log("59!")
           this.sec = 0;
         }
       }
