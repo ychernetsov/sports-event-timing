@@ -50,7 +50,7 @@ export const resultsAdded = createSelector(
 
 export const resultsCount = createSelector(
   selectAllResults,
-  results => results.length
+  results => results.filter(result => result.crossed !== "n/a").length
 );
 
 export const raceFinished = createSelector(

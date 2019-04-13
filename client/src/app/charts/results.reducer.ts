@@ -10,10 +10,10 @@ export interface ResultsState extends EntityState<Results> {
 }
 
 export function sortByCrossingTime(a: Results, b: Results): number {
-  return a.start_number.localeCompare(b.start_number);
+  return b.crossed.localeCompare(a.crossed);
 }
 export const adapter: EntityAdapter<Results> = createEntityAdapter<Results>({
-
+  sortComparer: sortByCrossingTime
 });
 
 export const initialResultsState: ResultsState = adapter.getInitialState( {

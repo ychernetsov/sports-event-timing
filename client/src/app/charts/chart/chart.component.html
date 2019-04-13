@@ -26,6 +26,7 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  <tr [@rowsAnimation]="" mat-row *matRowDef="let myRowData; columns: columnsToDisplay; let i = index;"
+      [ngClass]="(columnsToDisplay.length > 3 && i >  (resultsCount$ | async) - 4 ) ? 'highlited': 'normal'"></tr>
 
 </table>

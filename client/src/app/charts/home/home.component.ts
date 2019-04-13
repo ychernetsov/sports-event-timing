@@ -93,15 +93,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         //constant clock on reload
         const current_ts = new Date().getTime();
         const diff = current_ts - this.latest_time;
-        console.log("1 ", diff, Math.ceil(diff/60000), this.timer)
         if(this.raceStarted) {
+          console.log(current_ts, this.latest_time)
           this.startclock();
           this.min = Math.floor(diff/60000);
           this.sec = Math.floor(diff/1000 % 60);
-          if (this.sec > 59) this.min += 1
           this.msec = 999;
           this.timer = diff;
-          
+
         }
       }
     );
@@ -118,22 +117,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   startclock(): void {
     //start clock on press "start"
     this.interval = setInterval(() => {
-      //console.log()
       this.timer++;
       this.msec += 1;
-      //console.log(this.timer, this.min)
       if (this.timer % 6000 === 0) {
         this.min += 1;
-        if (this.min > 59) {
-          this.min = 0;
-        }
+      }
+      if (this.min > 59) {
+        this.min = 0;
       }
       if (this.timer % 100 === 0) {
         this.sec += 1;
-        if (this.sec > 59) {
-          console.log("59!")
-          this.sec = 0;
-        }
+      }
+      if (this.sec > 59) {
+        this.sec = 0;
       }
       if (this.msec > 999) {
         this.msec = 0;

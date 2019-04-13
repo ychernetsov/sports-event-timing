@@ -6,6 +6,7 @@ import { AppState } from 'src/app/reducers';
 import { ResultAdded, ResultUpdated } from '../charts.actions';
 import { MatSort } from '@angular/material/sort';
 import { sportsmenCount, resultsCount } from '../charts.selectors';
+import { rowsAnimation } from '../animations/templates.animation'
 
 
 
@@ -13,7 +14,8 @@ import { sportsmenCount, resultsCount } from '../charts.selectors';
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.css'],
+  animations: [rowsAnimation],
 })
 
 export class ChartComponent implements OnInit {
