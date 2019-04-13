@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import { Sportsmen } from '../model/sportmen.model';
 import { Results } from '../model/results.model';
+import { Status } from '../model/status.model';
 
 
 
@@ -51,4 +52,23 @@ export class ChartsService {
                 })
             );
     }
+
+    getStatus(): Observable<Status[]> {
+      return this.http.get('http://localhost:3000/results/status')
+          .pipe(
+              map(stat => {
+                console.log("Status", stat)
+                  return stat['status'].map(
+                      status => {
+                          return {
+                              "id": status._id,
+                              "started": status.started,
+                              "finished": status.finished,
+                              "latest_time_ts": status.latest_time_ts
+                          }
+                      }
+                  )
+              })
+          );
+  }
 }

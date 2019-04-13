@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { AllSportsmenRequested, ChartsActionTypes, AllSportsmenLoaded, AllResultsRequested, AllResultsLoaded } from './charts.actions';
+import { AllSportsmenRequested, ChartsActionTypes, AllSportsmenLoaded, AllResultsRequested, AllResultsLoaded, StatusRequested, StatusLoaded } from './charts.actions';
 import {mergeMap, map, withLatestFrom, filter} from "rxjs/operators";
 import { ChartsService } from './services/charts.service';
-import { allChartsLoaded, allResultsLoaded } from './charts.selectors';
+import { allChartsLoaded, allResultsLoaded, statusLoaded } from './charts.selectors';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
 
@@ -11,17 +11,6 @@ import { AppState } from '../reducers';
 
 @Injectable()
 export class ChartsEffects {
-
-
-  // @Effect()
-  // loadAllSportsmen$ = this.actions$
-  //   .pipe(
-  //     ofType<AllSportsmenRequested>(ChartsActionTypes.AllSportsmenRequested),
-  //     mergeMap(action => this.chartsService.getAllSportsmen()),
-  //     map(sportsmen => {
-  //       return new AllSportsmenLoaded({sportsmen})
-  //     })
-  //   )
 
   @Effect()
   loadAllSportsmen$ = this.actions$
@@ -43,6 +32,18 @@ export class ChartsEffects {
       map(results => new AllResultsLoaded({results}))
     );
 
+    @Effect()
+    loadStatus$ = this.actions$
+    .pipe(
+      ofType<StatusRequested>(ChartsActionTypes.StatusRequested),
+      withLatestFrom(this.store.pipe(select(statusLoaded))),
+      filter(([action, statusLoaded]) => {
+        console.log("1 ", action, statusLoaded)
+        return !statusLoaded
+      }),
+      mergeMap(() => this.chartsService.getStatus()),
+      map(status => new StatusLoaded(status))
+    );
   constructor(private chartsService: ChartsService, private actions$: Actions, private store: Store<AppState>) {}
 
 }

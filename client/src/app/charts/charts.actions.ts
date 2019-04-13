@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Sportsmen } from './model/sportmen.model';
 import { Results } from './model/results.model';
+import { Status } from './model/status.model';
 
 
 export enum ChartsActionTypes {
@@ -13,10 +14,27 @@ export enum ChartsActionTypes {
   ResultAdded = '[Socket API] Result added',
   ResultUpdated = '[Socket API] Result updated',
 
-  RemoveAllResults = '[Results Home Page] All results are removed from store'
+  RemoveAllResults = '[Results Home Page] All results are removed from store',
+
+  StatusRequested = '[Home Page] Status Requested',
+  StatusLoaded = '[Home Page] Race status is loaded from DB'
 }
 
+export class StatusRequested implements Action {
 
+  readonly type = ChartsActionTypes.StatusRequested;
+
+}
+
+export class StatusLoaded implements Action {
+
+  readonly type = ChartsActionTypes.StatusLoaded;
+
+  constructor(public payload: Status[] ) {
+
+  }
+
+}
 export class AllSportsmenRequested implements Action {
 
   readonly type = ChartsActionTypes.AllSportsmenRequested;
@@ -71,6 +89,8 @@ export class RemoveAllResults implements Action {
   readonly type = ChartsActionTypes.RemoveAllResults;
 }
 
+
+
 export type ChartsActions =
   | AllSportsmenRequested
   | AllSportsmenLoaded
@@ -79,3 +99,5 @@ export type ChartsActions =
   | ResultAdded
   | ResultUpdated
   | RemoveAllResults
+  | StatusRequested
+  | StatusLoaded

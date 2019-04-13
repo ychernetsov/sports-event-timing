@@ -16,6 +16,7 @@ import { resultsReducer } from './results.reducer';
 import { SocketService } from './services/socket.service';
 import { FormatstampPipe } from '../shared/formatstamp.pipe';
 import { MatSortModule } from '@angular/material/sort';
+import { statusReducer } from './status.reducer';
 
 // export const coursesRoutes: Routes = [
 //   {
@@ -52,6 +53,7 @@ export const chartsRoutes: Routes = [
     RouterModule.forChild(chartsRoutes),
     StoreModule.forFeature('charts', chartsReducer),
     StoreModule.forFeature('results', resultsReducer),
+    StoreModule.forFeature('status', statusReducer),
     EffectsModule.forFeature([ChartsEffects])
   ],
   exports: [

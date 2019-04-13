@@ -1,4 +1,6 @@
 const Result = require("../../db/models/result");
+const RaceStatus = require("../../db/models/racestatus");
+const mongoose = require('mongoose');
 
 exports.getResults = (req, res, next) => {
     Result.find()
@@ -67,4 +69,39 @@ exports.updateResult = (req, res, next) => {
             error: "Results failed to save ", err
           });
         });
-}
+      }
+    exports.updateStatus = (req, res, next) => {
+      const id = "5cb0fe1620fc0827ec678343"
+      RaceStatus.updateOne({ _id: id }, { 
+        "started": req.body.started,
+        "finished": req.body.finished,
+        "latest_time_ts": req.body.latest_time_ts
+      })
+      .exec()
+      .then(data => {
+        console.log("Status updated")
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: "Failed to update status", err
+        });
+      });
+    }
+
+    exports.getStatus = (req, res, next) => {
+      RaceStatus.find()
+      //.select("-__v -_id")
+      .exec()
+      .then(status => {
+          res.status(200).json({
+            status: status
+          });
+      })
+      .catch(err => {
+          console.log(err);
+          res.status(500).json({
+          error: "Status failed to load", err
+          });
+      });
+    }

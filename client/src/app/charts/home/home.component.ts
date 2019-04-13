@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
-import { selectAllSportsmen, selectAllResults, resultsAdded, sportsmenCount, filterAllResults, resultsCount, raceFinished } from '../charts.selectors';
-import { AllSportsmenRequested, AllResultsRequested, ResultAdded, ResultUpdated, RemoveAllResults } from '../charts.actions';
+import { selectAllSportsmen, selectAllResults, resultsAdded, sportsmenCount, filterAllResults, resultsCount, raceFinished, selectStatus } from '../charts.selectors';
+import { AllSportsmenRequested, AllResultsRequested, ResultAdded, ResultUpdated, RemoveAllResults, StatusRequested } from '../charts.actions';
 import { Results } from '../model/results.model';
 import { SocketService } from '../services/socket.service';
 import { tap, map } from 'rxjs/operators';
@@ -20,8 +20,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   resultsAdded$: Observable<number>;
   sportsmenCount$: Observable<number>;
   resultsCount$: Observable<number>;
+  raceStatus$: Subscription;
   raceStarted = false;
   raceFinished$: Subscription;
+  latest_time: number;
   forSportsmen = ['start_number', 'sportsmanName', 'sportsmanLastname'];
   forResults = ['start_number', 'sportsmanName', 'sportsmanLastname', 'finishing', 'crossed'];
   min = 0; sec = 0; msec = 0;
@@ -60,7 +62,26 @@ export class HomeComponent implements OnInit, OnDestroy {
       select(raceFinished),
       tap(data => data)
     ).subscribe(finished => {
-      if(finished) this.raceStarted = false;
+      if(finished) {
+        this.clearTable(this.interval);
+        this.socket.emit("finished");
+        this.raceStarted = false;
+      }
+
+    });
+
+    console.log("Dispatch STATUS")
+    this.store.dispatch(new StatusRequested());
+    this.raceStatus$ = this.store.pipe(
+      select(selectStatus),
+      map(status => status)
+
+    ).subscribe(status => {
+      console.log("tap ", status)
+      if(status.length > 0) {
+        this.raceStarted = status[0].started;
+        this.latest_time = status[0].latest_time_ts
+      }
     })
 
     this.socket.on('started').subscribe(
@@ -72,7 +93,26 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.socket.on('finished').subscribe(
       data => {
+        console.log("RACE FINISHED")
         this.raceStarted = false;
+      }
+    );
+
+    this.socket.on('currentData').subscribe(
+      data => {
+        console.log("reloadPage ", data.latest_time_ts)
+        const current_ts = new Date().getTime();
+        const diff = (current_ts - data.latest_time_ts) * 10;
+        if(this.raceStarted) {
+          this.min = Math.floor(diff/60000);
+          this.sec = Math.floor(diff/1000 % 60);
+          this.msec = 999;
+
+          this.startclock();
+          console.log("Coonnection", diff, current_ts, data.latest_time_ts)
+        }
+
+
       }
     );
 

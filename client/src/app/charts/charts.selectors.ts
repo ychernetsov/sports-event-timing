@@ -3,11 +3,15 @@ import { ChartsState } from './charts.reducer';
 import * as fromCharts from './charts.reducer';
 import { ResultsState } from './results.reducer';
 import * as fromResults from './results.reducer';
+import { StatusState } from './status.reducer';
+import * as fromStatus from './status.reducer';
 
 
 export const selectChartsState = createFeatureSelector<ChartsState>("charts");
 
 export const selectResultsState = createFeatureSelector<ResultsState>("results");
+
+export const selectStatusState = createFeatureSelector<StatusState>("status");
 
 export const selectAllSportsmen = createSelector(
     selectChartsState,
@@ -50,8 +54,20 @@ export const resultsCount = createSelector(
 );
 
 export const raceFinished = createSelector(
-  selectResultsState,
-  selectChartsState,
-  (results, charts) => results.resultsAdded === charts.chartsLength
-)
+  resultsCount,
+  sportsmenCount,
+  (results, sportsmen) => {
+    console.log(results, sportsmen)
+    return results === 0 ? false : results === sportsmen
+  }
+);
 
+export const statusLoaded = createSelector(
+  selectStatusState,
+  status => status.statusLoaded
+);
+
+export const selectStatus = createSelector(
+  selectStatusState,
+  fromStatus.selectAll
+);
