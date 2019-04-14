@@ -44,9 +44,7 @@ const routes: Routes = [
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([])
   ],
-  providers: [
-    // { provide: RouterStateSerializer, useClass: CustomSerializer }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

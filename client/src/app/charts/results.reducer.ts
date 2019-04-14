@@ -1,16 +1,16 @@
 
 import { ChartsActions, ChartsActionTypes } from './charts.actions';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Results } from './model/results.model';
 
 
 export interface ResultsState extends EntityState<Results> {
-  resultsAdded: number,
-  allResultsLoaded: boolean
+  resultsAdded: number;
+  allResultsLoaded: boolean;
 }
 
 export function sortByCrossingTime(a: Results, b: Results): number {
-  return b.crossed.localeCompare(a.crossed);
+  return a.crossed.localeCompare(b.crossed);
 }
 export const adapter: EntityAdapter<Results> = createEntityAdapter<Results>({
   sortComparer: sortByCrossingTime
@@ -34,7 +34,7 @@ export function resultsReducer(state = initialResultsState, action: ChartsAction
 
     case ChartsActionTypes.ResultUpdated:
 
-        return adapter.updateOne({ id: action.id, changes: action.changes }, {...state, resultsAdded: state.resultsAdded + 1})
+        return adapter.updateOne({ id: action.id, changes: action.changes }, {...state, resultsAdded: state.resultsAdded + 1});
 
     case ChartsActionTypes.RemoveAllResults:
         return adapter.removeAll({...state, resultsAdded: 0});

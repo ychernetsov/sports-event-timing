@@ -1,11 +1,10 @@
 
 const dbService = require("../../db-service");
 const Result = require("../../db/models/result");
-const resultsController = require("../controllers/results");
 const request = require('request');
 const connection = require("../../db");
 
-async function makeGetRequest(uri, method, payload) {
+async function makeGetRequest(uri, method) {
     const options = {
         uri: uri,
         method: method

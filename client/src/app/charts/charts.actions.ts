@@ -98,4 +98,4 @@ export type ChartsActions =
   | ResultUpdated
   | RemoveAllResults
   | StatusRequested
-  | StatusLoaded
+  | StatusLoaded;

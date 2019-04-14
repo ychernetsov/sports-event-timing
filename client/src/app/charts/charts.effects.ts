@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { AllSportsmenRequested, ChartsActionTypes, AllSportsmenLoaded, AllResultsRequested, AllResultsLoaded, StatusRequested, StatusLoaded } from './charts.actions';
-import {mergeMap, map, withLatestFrom, filter} from "rxjs/operators";
+import {mergeMap, map, withLatestFrom, filter} from 'rxjs/operators';
 import { ChartsService } from './services/charts.service';
 import { allChartsLoaded, allResultsLoaded, statusLoaded } from './charts.selectors';
 import { Store, select } from '@ngrx/store';

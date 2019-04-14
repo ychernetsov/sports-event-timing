@@ -1,13 +1,13 @@
 import { ChartsActions, ChartsActionTypes } from './charts.actions';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Status } from './model/status.model';
 
 
 export interface StatusState extends EntityState<Status> {
-  statusLoaded: boolean
+  statusLoaded: boolean;
 }
 
-export const adapter: EntityAdapter<Status> = createEntityAdapter<Status>()
+export const adapter: EntityAdapter<Status> = createEntityAdapter<Status>();
 
 export const initialStatusState: StatusState = adapter.getInitialState( {
   statusLoaded: false

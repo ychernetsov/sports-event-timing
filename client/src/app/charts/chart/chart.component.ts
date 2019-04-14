@@ -1,12 +1,11 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SocketService } from '../services/socket.service';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
 import { ResultAdded, ResultUpdated } from '../charts.actions';
-import { MatSort } from '@angular/material/sort';
 import { sportsmenCount, resultsCount } from '../charts.selectors';
-import { rowsAnimation } from '../animations/templates.animation'
+import { rowsAnimation } from '../animations/templates.animation';
 
 
 

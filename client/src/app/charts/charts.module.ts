@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {MatButtonModule} from '@angular/material/button';
-//import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { ChartsEffects } from './charts.effects';
 import { ChartsService } from './services/charts.service';
@@ -15,7 +14,6 @@ import { chartsReducer } from './charts.reducer';
 import { resultsReducer } from './results.reducer';
 import { SocketService } from './services/socket.service';
 import { FormatstampPipe } from '../shared/formatstamp.pipe';
-import { MatSortModule } from '@angular/material/sort';
 import { statusReducer } from './status.reducer';
 
 export const chartsRoutes: Routes = [
@@ -42,7 +40,6 @@ export const chartsRoutes: Routes = [
     MatButtonModule,
     MatTabsModule,
     MatTableModule,
-    //BrowserAnimationsModule,
     RouterModule.forChild(chartsRoutes),
     StoreModule.forFeature('charts', chartsReducer),
     StoreModule.forFeature('results', resultsReducer),
@@ -54,8 +51,7 @@ export const chartsRoutes: Routes = [
     MatTableModule,
     ChartComponent,
     HomeComponent,
-    FormatstampPipe,
-    //BrowserAnimationsModule
+    FormatstampPipe
   ],
   providers: [
     ChartsService,
